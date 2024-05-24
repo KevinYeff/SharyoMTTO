@@ -74,3 +74,19 @@ class Contact_book(models.Model):
         db_table = 'contact_book'
         verbose_name = 'Contact_book'
         verbose_name_plural = 'Contact_books'
+        
+class Store(models.Model):
+    name = models.CharField(max_length=20, blank=False)
+    phone = models.CharField(max_length=20, blank=True)
+    mobil = models.CharField(max_length=20, blank=False)
+    email = models.EmailField(max_length=20, blank=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    address = models.CharField(max_length=50, blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'store'
+        verbose_name = 'Store'
+        verbose_name_plural = 'stores'

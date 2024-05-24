@@ -45,7 +45,7 @@ class Vehicle_brand(models.Model):
     
 class Vehicle(models.Model):
     
-    # CHOICES
+    # fuel_type CHOICES
     ELETRIC = "ELECTRICO"
     EXTRA = "EXTRA"
     DIESEL = "DIESEL"
