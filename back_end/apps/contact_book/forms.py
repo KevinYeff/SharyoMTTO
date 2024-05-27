@@ -2,8 +2,20 @@ from django import forms
 from .models import Workshop, Store, Mechanic, Contact
 
 # Formulario para agregar contactos a la agenda
-
-        
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = [
+            'name',
+            'last_name',
+            'phone',
+            'mobil',
+            'email',
+            'address',
+            'country',
+            'state',
+            'city',
+        ]        
         
 # Formulario para agregar una nueva tienda
 class StoreForm(forms.ModelForm):

@@ -1,10 +1,23 @@
 from django.shortcuts import render
-from .forms import StoreForm, WorkshopForm, MechanicForm
+from .forms import StoreForm, WorkshopForm, MechanicForm, ContactForm
 from django.http import HttpResponse
 
 # Create your views here.
 
-
+def new_contact(request):
+    """Method that will return a form to create a new contact"""
+    if request.method =='GET':
+        form = ContactForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'new_contact.html', context)
+    
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Contacto creado exitoxamente")
     
 def new_store(request):
     """Method that will return a form to create a new store"""
