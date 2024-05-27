@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpRequest, JsonResponse
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from .models import User
 from django.db import DatabaseError
 from django.core.exceptions import ObjectDoesNotExist
+from .forms import UserForm
 
 # Create your views here.
 def listUsers(request: HttpRequest):
@@ -36,3 +37,29 @@ def listUsers(request: HttpRequest):
                 'error': 'Method not allowed, GET request only'
             },
             status=405)
+
+
+    
+def create_user(request):
+    """Method that will return a form to create a new user"""
+    
+    if request.method == 'GET':
+        form = UserForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'formulario.html', context)
+    
+    
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponse("Usuario creado exitoxamente")
+    else:
+        form = UserForm()
+    return render(request, 'formulario.html', {'form': form})
+        
+        
+
+        

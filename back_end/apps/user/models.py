@@ -5,6 +5,8 @@ from django.utils import timezone
 
 class Country(models.Model):
     country = models.CharField(max_length=50)
+    shortname = models.CharField(max_length=3, blank=True)
+    phonecode = models.CharField(max_length=7, blank=True)
     
     def __str__(self):
         return self.country
@@ -22,12 +24,13 @@ class State(models.Model):
         return self.state
     
     class Meta:
-        db_table = 'estado'
-        verbose_name = 'Estado'
+        db_table = 'estados'
+        verbose_name = 'Estados'
         verbose_name_plural = 'estados'
 
 class City(models.Model):
     city = models.CharField(max_length=50)
+    id_state = models.ForeignKey(State, on_delete=models.CASCADE, blank=True)
     
     def __str__(self):
         return self.city
@@ -46,7 +49,7 @@ class User(models.Model):
     mobile = models.CharField(max_length=20, blank=False, unique=True)
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(max_length=20, blank=False, unique=True)
-    birthday = models.DateField(blank=False)
+    birth_date = models.DateField(blank=False)
 
     username = models.CharField(max_length=20, blank=False, unique=True)
     password = models.CharField(max_length=20, blank=False)
