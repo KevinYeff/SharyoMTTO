@@ -58,6 +58,8 @@ class Mechanic(models.Model):
     mobil = models.CharField(max_length=20, blank=False)
     email = models.EmailField(max_length=20, blank=True)
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, default=1)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, default=1)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     specialization = models.ManyToManyField(Specialization)
     

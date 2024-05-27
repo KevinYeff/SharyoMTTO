@@ -7,9 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Nueva Tienda</h1>
+    <h1>Nuevo Mecanico</h1>
     <hr>
-    <form action="{% url 'new_store' %}" method="POST">
+    <form action="{% url 'new_mechanic' %}" method="POST">
         {% csrf_token %}
         <table>
             {{ form.as_table }}

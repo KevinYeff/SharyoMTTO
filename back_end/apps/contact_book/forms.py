@@ -36,3 +36,20 @@ class WorkshopForm(forms.ModelForm):
             'address',
             'specialization',
         ]
+        
+# Formulario para agregar un nuevo mecanico
+class MechanicForm(forms.ModelForm):
+    class Meta:
+        model = Mechanic
+        fields = [
+            'name',
+            'last_name',
+            'phone',
+            'mobil',
+            'email',
+            'workshop',
+            'country',
+            'state',
+            'city',
+            'specialization',
+        ]

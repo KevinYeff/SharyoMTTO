@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import StoreForm, WorkshopForm
+from .forms import StoreForm, WorkshopForm, MechanicForm
 from django.http import HttpResponse
 
 # Create your views here.
@@ -35,3 +35,18 @@ def new_workshop(request):
         if form.is_valid():
             form.save()
             return HttpResponse("Taller creada exitoxamente")
+        
+def new_mechanic(request):
+    """Method that will return a form to create a new mechanic"""
+    if request.method =='GET':
+        form = MechanicForm
+        context = {
+            'form': form
+        }
+        return render(request, 'new_workshop.html', context)
+    
+    if request.method == 'POST':
+        form = MechanicForm
+        if form.is_valid():
+            form.save()
+            return HttpResponse("Mecanico creada exitoxamente")
