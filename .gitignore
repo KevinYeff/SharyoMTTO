@@ -1,1 +1,14 @@
 venv/
+
+# Ignorar archivos de caché de Python
+back-end/SharyoMTTO/__pycache__/
+back-end/apps/contact_book/__pycache__/
+back-end/apps/contact_book/migrations/__pycache__/
+back-end/apps/user/__pycache__/
+back-end/apps/user/migrations/__pycache__/
+back-end/apps/vehicles/__pycache__/
+back-end/apps/vehicles/migrations/__pycache__/
+**/*.py[cod]
+
+# Ignorar la base de datos SQLite
+db.sqlite3
