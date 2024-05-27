@@ -50,15 +50,12 @@ def create_user(request):
         }
         return render(request, 'formulario.html', context)
     
-    
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
         return HttpResponse("Usuario creado exitoxamente")
-    else:
-        form = UserForm()
-    return render(request, 'formulario.html', {'form': form})
+
         
         
 
