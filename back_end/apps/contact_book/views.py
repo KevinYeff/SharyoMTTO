@@ -39,7 +39,7 @@ def new_contact(request):
                             son obligatorios')
 
                 form.save()
-                return HttpResponse("Contacto creado exitoxamente")
+                return HttpResponse("Contacto creado exitoxamente", status=200)
 
             else:
                 return HttpResponse("Error al crear contacto", status=400)
@@ -85,7 +85,8 @@ def new_store(request):
                             son obligatorios')
 
                 form.save()
-                return HttpResponse("Tienda creada exitoxamente")
+                return HttpResponse("Tienda creada exitoxamente", status=200)
+
             else:
                 return HttpResponse("Error al crear tienda", status=400)
 
@@ -96,7 +97,6 @@ def new_store(request):
 
     else:
         return HttpResponse("Petición inválida", status=400)
-
 
 
 def new_workshop(request):
@@ -131,9 +131,10 @@ def new_workshop(request):
                                 son obligatorios')
 
                 form.save()
-                return HttpResponse("Taller creado exitosamente")
+                return HttpResponse("Taller creado exitosamente",status=200)
+
             else:
-                return HttpResponse('Error al crear el taller')
+                return HttpResponse('Error al crear el taller', status=400)
 
         except ValidationError as e:
             return HttpResponse("Error: " + str(e), status=400)
@@ -145,16 +146,43 @@ def new_workshop(request):
 
 
 def new_mechanic(request):
-    """Method that will return a form to create a new mechanic"""
+    """
+    Método que en principio retorn aun formulario para agregar un nuevo
+    mecánico.
+    Args:
+        request (objeto): Objeto del módulo HTTP que contiene información acerca
+        de la petición entrante.
+    """
     if request.method =='GET':
-        form = MechanicForm
-        context = {
-            'form': form
-        }
-        return render(request, 'new_workshop.html', context)
-    
-    if request.method == 'POST':
-        form = MechanicForm
-        if form.is_valid():
-            form.save()
-            return HttpResponse("Mecanico creada exitoxamente")
+        try:
+            form = MechanicForm
+            context = {
+                'form': form
+            }
+            return render(request, 'new_mechanic.html', context)
+
+        except Exception as e:
+            return HttpResponse("Error: " + str(e), status=500)
+
+    elif request.method == 'POST':
+        try:
+            form = MechanicForm(request.POST)
+
+            if form.is_valid():
+
+                if not form.cleaned_data.get('name') \
+                    or not form.cleaned_data.get('email') \
+                    or not form.cleaned_data.get('phone'):
+                        raise ValidationError('Todos los campos \
+                            son obligatorios')
+                form.save()
+                return HttpResponse("Mecanico creada exitoxamente", status=200)
+
+            else:
+                return HttpResponse('Error al agregar un nuevo mecánico',
+                                    status=400)
+
+        except ValidationError as e:
+            return HttpResponse("Error: " + str(e), status=400)
+        except Exception as e:
+            return HttpResponse("Error: " + str(e), status=500)
