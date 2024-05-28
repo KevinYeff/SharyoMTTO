@@ -1,5 +1,5 @@
 from django.db import models
-from apps.user.models import City
+from apps.user.models import City, State, Country
 
 # Create your models here.
 
@@ -10,6 +10,8 @@ class Contact(models.Model):
     mobil = models.CharField(max_length=20, blank=False)
     email = models.EmailField(max_length=20, blank=False)
     address = models.CharField(max_length=50, blank=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -36,6 +38,8 @@ class Workshop(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     mobil = models.CharField(max_length=20, blank=False)
     email = models.EmailField(max_length=20, blank=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, default=1)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, default=1)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     address = models.CharField(max_length=50, blank=True)
     specialization = models.ManyToManyField(Specialization)
@@ -54,6 +58,8 @@ class Mechanic(models.Model):
     mobil = models.CharField(max_length=20, blank=False)
     email = models.EmailField(max_length=20, blank=True)
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, default=1)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, default=1)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     specialization = models.ManyToManyField(Specialization)
     
@@ -80,7 +86,9 @@ class Store(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     mobil = models.CharField(max_length=20, blank=False)
     email = models.EmailField(max_length=20, blank=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, default=1)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, default=1)
     address = models.CharField(max_length=50, blank=True)
     
     def __str__(self):

@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpRequest, JsonResponse
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from .models import User
 from django.db import DatabaseError
 from django.core.exceptions import ObjectDoesNotExist
-
+from .forms import UserForm
 
 # Create your views here.
 def listUsers(request: HttpRequest):
@@ -16,13 +16,11 @@ def listUsers(request: HttpRequest):
     """
     if request.method == 'GET':
         try:
-            users = User.objects.all()
-            users_list = list(users)
-
+            users = list(User.objects.all())
             if not users:
                 return HttpResponseNotFound("No users found", status=204)
             # return render(request, 'users.html', {'users': users})
-            return JsonResponse(users_list, safe=False, status=200)
+            return JsonResponse(users, safe=False)
         except DatabaseError as e:
             return JsonResponse(
                 {
@@ -40,38 +38,25 @@ def listUsers(request: HttpRequest):
             },
             status=405)
 
-def listUsersById(request: HttpRequest, id: int):
-    """Method that will return users based on id from the database
 
-    Args:
-        request (HttpRequest): The HTTP object containing information.
-        id (int): The user's ID to search for in the database.
-    Returns:
-        JsonResponse: A JSON response containing the user's information if
-        found, or error message if user does not exist.
-    """
-    if request.method != 'GET':
-        return JsonResponse(
-            {
-                'error': 'Method not allowed, GET request only'
-            }, safe=False, status=405)
+    
+def create_user(request):
+    """Method that will return a form to create a new user"""
+    
+    if request.method == 'GET':
+        form = UserForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'formulario.html', context)
+    
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponse("Usuario creado exitoxamente")
 
-    try:
-        user = User.objects.get(id=id)
-        return JsonResponse(user, safe=False, status=200)
+        
+        
 
-    except User.DoesNotExist:
-        return JsonResponse(
-            {
-                'error': 'User not found'
-            }, safe=False, status=404)
-    except DatabaseError as e:
-        return JsonResponse(
-            {
-                'error': 'Database error: ' + str(e)
-            }, safe=False, status=500)
-    except Exception as e:
-        return JsonResponse(
-            {
-                'error': str(e)
-            }, safe=False, status=500)
+        
