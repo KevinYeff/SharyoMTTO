@@ -53,13 +53,15 @@ def new_contact(request):
 
 
 def new_store(request):
-    """Método que en principio retorna un formulario para crear una
-    nueva tienda
+    """
+    Método que en principio retorna un formulario para crear una
+    nueva tienda.
 
     Args:
         request (objeto): Objeto del módulo HTTP que contiene información acerca
         de la petición entrante.
     """
+
     if request.method =='GET':
         try:
             form = StoreForm()
@@ -98,20 +100,50 @@ def new_store(request):
 
 
 def new_workshop(request):
-    """Method that will return a form to create a new workshop"""
+    """
+    Método que en un principio retorna un formulario para crear un taller nuevo
+    Args:
+        request (objeto): Objeto del módulo HTTP que contiene información acerca
+        de la petición entrante.
+    """
+
     if request.method =='GET':
-        form = WorkshopForm
-        context = {
-            'form': form
-        }
-        return render(request, 'new_workshop.html', context)
-    
-    if request.method == 'POST':
-        form = WorkshopForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse("Taller creada exitoxamente")
-        
+        try:
+            form = WorkshopForm
+            context = {
+                'form': form
+            }
+            return render(request, 'new_workshop copy.html', context)
+
+        except Exception as e:
+            return HttpResponse("Error: " + str(e), status=500)
+
+    elif request.method == 'POST':
+        try:
+            form = WorkshopForm(request.POST)
+
+            if form.is_valid():
+
+                if not form.cleaned_data.get('name') \
+                        or not form.cleaned_data.get('email') \
+                        or not form.cleaned_data.get('phone'):
+                            raise ValidationError('Todos los campos \
+                                son obligatorios')
+
+                form.save()
+                return HttpResponse("Taller creado exitosamente")
+            else:
+                return HttpResponse('Error al crear el taller')
+
+        except ValidationError as e:
+            return HttpResponse("Error: " + str(e), status=400)
+        except Exception as e:
+            return HttpResponse("Error: " + str(e), status=500)
+
+    else:
+        return HttpResponse("Petición inválida", status=400)
+
+
 def new_mechanic(request):
     """Method that will return a form to create a new mechanic"""
     if request.method =='GET':
