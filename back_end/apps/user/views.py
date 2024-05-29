@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, JsonResponse
 from django.http import HttpResponseNotFound, HttpResponse
 from .models import User
 from django.db import DatabaseError
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import UserForm
+from .forms import RegistrationForm
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def listUsers(request: HttpRequest):
@@ -39,6 +41,33 @@ def listUsers(request: HttpRequest):
             status=405)
 
 
+def register_user(request, *args, **kwargs):
+    user = request.user
+    if user.is_authenticated:
+        return HttpRequest(f'Ya esta autenticado como {user.email}.')
+    context = {}
+   
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email').lower()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(email=email, password=raw_password)
+            login(request, user)
+            destination =kwargs.get('next')
+            if destination:
+                return redirect(destination)
+            return redirect('home')
+        else:
+            context['registration_form'] = form
+            
+    return render(request,'registration/registro.html' ,context)
+    
+    
+@login_required
+def dashboard(request):
+    return render(request,'dashboard/dashboard.html', {})
     
 def create_user(request):
     """Method that will return a form to create a new user"""
