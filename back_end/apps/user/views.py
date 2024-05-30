@@ -111,8 +111,26 @@ def get_redirect_if_exists(request):
             redirect = str(request.GET.get('next'))
     return redirect
 
+# *** VISTA USUARIO ***
 
+def user_view(request, *args, **kwargs):
     
+    context = {}
+    user_id = kwargs.get('user_id')
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return HttpResponse("El usuario no existe")
+    
+    if user:
+        context['id'] = user.id
+        context['username'] = user.username
+        context['email'] = user.email
+        context['name'] = user.name
+        context['last_name'] = user.last_name
+        context['mobile'] = user.mobile
+
+    return render(request, 'user/user.html', context)
 
         
         

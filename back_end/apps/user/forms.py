@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from .models import User
 
-# Formulariop para el registro de nuevos usuarios
+# Formulario para el registro de nuevos usuarios
         
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=20, help_text='Requerido. agrega un email valido')
@@ -38,7 +38,7 @@ class RegistrationForm(UserCreationForm):
                 return username
             raise forms.ValidationError(f'El numbre de usuario: {username}, ya esta en uso')
         
-
+# Formulario para login de usuario
 class AuthenticationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     
