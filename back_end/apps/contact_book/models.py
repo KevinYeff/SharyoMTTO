@@ -1,5 +1,5 @@
 from django.db import models
-from apps.user.models import City, State, Country
+from apps.user.models import City, State, Country, User
 
 # Create your models here.
 
@@ -13,6 +13,7 @@ class Contact(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.name + " " + self.last_name

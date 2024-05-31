@@ -64,6 +64,7 @@ class Vehicle(models.Model):
     model = models.IntegerField(blank=False)
     description = models.TextField(max_length=250, blank=True)
     fuel_type = models.CharField(max_length=15, choices=FUEL_CHOICES, default=GASOLINE)
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     brand = models.ForeignKey(Vehicle_brand, on_delete=models.CASCADE)
     vehicle_category = models.ForeignKey(Vehicle_category, on_delete=models.CASCADE)
