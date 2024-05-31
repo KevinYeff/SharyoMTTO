@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 # Create your models here.
 
@@ -47,19 +47,11 @@ class City(models.Model):
  # UserManager para el modelo User    
     
 class UserManager(BaseUserManager):
-    def create_user(self, username, name, last_name, email, mobile, password = None):
+    def create_user(self, username, name, last_name, email, mobile, password, **extra_fields):
         if not email:
             raise ValueError('El usuario debe tener un correo electrónico')
-        if not username:
-            raise ValueError('El usuario debe tener un nombre de usuario')
         
-        user = self.model(
-            email=self.normalize_email(email),
-            username=username, 
-            name=name,
-            last_name=last_name,
-            mobile=mobile
-        )
+        user = self.model(email=email, username=username, name=name, last_name=last_name, mobile=mobile, **extra_fields)
         
         user.set_password(password)
         user.save(using=self._db)
@@ -67,12 +59,12 @@ class UserManager(BaseUserManager):
     
     def create_superuser(self, username, name, last_name, email, mobile, password):
         user = self.create_user(
-            username=username, 
-            password=password,  
-            name=name,
-            last_name=last_name,
-            email=email,
-            mobile=mobile   
+            username, 
+            password,  
+            name,
+            last_name,
+            email,
+            mobile  
         )
         
         user.is_user = True 
@@ -85,19 +77,17 @@ class UserManager(BaseUserManager):
 # Modelo para la tabla de "usuario"
      
 class User(AbstractBaseUser):
-    from apps.contact_book.models import Contact_book
     
     # Informacion personal
     name = models.CharField('Nombre', max_length=20)
     last_name = models.CharField('Apellido', max_length=20)
     mobile = models.CharField('Celular', max_length=20, blank=False, unique=True)
     phone = models.CharField(max_length=20, blank=True)
-    email = models.EmailField('Correo electronico', unique= True, max_length=20, blank=False)
+    email = models.EmailField('Correo electronico', unique= True)
     birth_date = models.DateField(default=timezone.now())
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
-    contact_book = models.ForeignKey(Contact_book, on_delete=models.CASCADE, null=True)
     
     # Informacion de usuario
     username = models.CharField('Nombre de usuario', unique=True, max_length=20)
