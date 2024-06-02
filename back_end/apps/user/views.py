@@ -3,9 +3,13 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 from .utils import send_code_to_user
-from .models import OneTimePassword
-from .serializers import UserRegisterSerializer, LoginUserSerializer
+from .models import OneTimePassword, User
+from .serializers import UserRegisterSerializer, LoginUserSerializer, PasswordResetRequestViewSerializer, SetNewPasswordSerializer
 
 
 # Create your views here.
@@ -56,21 +60,34 @@ class LoginUserView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class PasswordResetRequestView(GenericAPIView):
+    serializer_class = PasswordResetRequestViewSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        return Response({'message': "Un link ha sido enviado a su correo electrónico para reiniciar su contraseña."}, status=status.HTTP_200_OK)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-# class CreateUserView(generics.CreateAPIView):
-#     serializer_class = UserSerializer   
-    
-# class RetrieveUpdateUserView(generics.RetrieveUpdateAPIView):
-#     serializer_class = UserSerializer
-#     authentication_classes = [authentication.TokenAuthentication]
-#     permission_classes = [permissions.IsAuthenticated]
-    
-#     def get_object(self):
-#         return self.request.user
-    
+class PasswordResetConfirm(GenericAPIView):
+    def get(self, request, uidb64, token):
+        try:
+            user_id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=user_id)
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                return Response({'message': 'El token es invalido o ha expirado.'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'success': True, 'message': 'Credenciales validas.', 'uidb64': uidb64, 'token': token}, status=status.HTTP_200_OK)
+        
+        except DjangoUnicodeDecodeError:
+            return Response({'message': 'El token es invalido o ha expirado.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# class CreateTokenView(ObtainAuthToken):
-#     serializer_class = AuthTokenSerializer
+class SetNewPassword(GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'message': 'Contraseña actualizada exitosamente.'}, status=status.HTTP_200_OK)
+        
 
         
 
