@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharyoMTTO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>SharyoMTTO</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#features">Características</a></li>
+                    <li><a href="#why-choose-us">Por qué elegirnos</a></li>
+                    <li><a href="#download">Descargar App</a></li>
+                    <li><a href="#" id="loginBtn">Iniciar Sesión</a></li>
+                    <li><a href="#" class="sign-up">Regístrate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h2>Gestión de mantenimiento vehicular fácil y eficiente</h2>
+            <p>Registra tu auto o moto, controla el mantenimiento, seguros, y mucho más.</p>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Características</h2>
+            <div class="feature-item">
+                <h3>Registro de Vehículos</h3>
+                <p>Registra y gestiona la información de tu auto o moto.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Control de Mantenimiento</h3>
+                <p>Programa y registra el mantenimiento de tu vehículo con notificaciones.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Seguimiento de Seguros</h3>
+                <p>Recibe notificaciones cuando se acerque la fecha de renovación de tus seguros.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Calendario</h3>
+                <p>Gestiona y programa tus mantenimientos futuros con facilidad.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Guía de Talleres</h3>
+                <p>Encuentra talleres mecánicos disponibles según tu zona.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <h2>Por qué elegirnos</h2>
+            <div class="reviews">
+                <div class="review-item">
+                    <h3>Juan Pérez</h3>
+                    <p>"SharyoMTTO ha simplificado la gestión del mantenimiento de mi auto. ¡Muy recomendado!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="review-item">
+                    <h3>Maria Gómez</h3>
+                    <p>"La mejor herramienta para llevar el control de mis seguros y mantenimientos."</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="review-item">
+                    <h3>Carlos Díaz</h3>
+                    <p>"El calendario y las notificaciones me ayudan a no olvidar los mantenimientos importantes."</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="download" class="download">
+        <div class="container">
+            <h2>Descarga la App</h2>
+            <p>Para una gestión más rápida y fácil, descarga SharyoMTTO en tu dispositivo móvil.</p>
+            <div class="download-buttons">
+                <a href="#"><img src="google-play.png" alt="Descargar en Google Play"></a>
+                <a href="#"><img src="app-store.png" alt="Descargar en App Store"></a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+                <p>Teléfono: +123 456 7890</p>
+                <p>Email: contacto@sharyomtto.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Nuestros Productos</h3>
+                <ul>
+                    <li><a href="#">Registro de Vehículos</a></li>
+                    <li><a href="#">Control de Mantenimiento</a></li>
+                    <li><a href="#">Seguimiento de Seguros</a></li>
+                    <li><a href="#">Calendario</a></li>
+                    <li><a href="#">Guía de Talleres</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="#">Guías de Usuario</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Centro de Ayuda</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <ul class="social-media">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 SharyoMTTO. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Login Form Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>
