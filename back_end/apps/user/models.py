@@ -98,7 +98,6 @@ class User(AbstractBaseUser):
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
         
-# *** FIN SECCION USUARIO ***
 
 class OneTimePassword(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
