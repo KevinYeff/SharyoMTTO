@@ -83,7 +83,7 @@ class MechanicSerializer(serializers.ModelSerializer):
 class ContactBookSerializer(serializers.ModelSerializer):
     contacts = ContactSerializer(many=True)
     stores = StoreSerializer(many=True)
-    workshops = WorkshopSrializer(many=True)
+    workshops = WorkshopSerializer(many=True)
     mechanics = MechanicSerializer(many=True)
 
     class Meta:
