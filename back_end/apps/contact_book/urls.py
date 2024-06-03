@@ -1,10 +1,21 @@
 from django.urls import path
-from . import views, forms_views
+from .views import (
+    ContactBookListView, ContactBookDetailView,
+    ContactListView, ContactDetailView,
+    StoreListView, StoreDetailView,
+    WorkshopListView, WorkshopDetailView,
+    MechanicListView, MechanicDetailView
+)
 
 urlpatterns = [
-    path('new_contact/', views.new_contact, name='new_contact'),
-    path('new_store/', views.new_store, name='new_store'),
-    path('new_workshop/', views.new_workshop, name='new_workshop'),
-    path('new_mechanic/', views.new_workshop, name='new_mechanic'),
-    path('forms/<str:form_name>/', forms_views.contactBookforms)
+    path('user/<int:id>/contact_book/', ContactBookListView.as_view(), name='contact_book_list'),
+    path('user/<int:id>/contact_book/<int:id>/', ContactBookDetailView.as_view(), name='contact_book_detail'),
+    path('user/<int:id>/contact_book/contacts/', ContactListView.as_view(), name='contact_list'),
+    path('user/<int:id>/contact_book/contacts/<int:id>/', ContactDetailView.as_view(), name='contact_detail'),
+    path('user/<int:id>/contact_book/stores/', StoreListView.as_view(), name='store_list'),
+    path('user/<int:id>/contact_book/stores/<int:id>/', StoreDetailView.as_view(), name='store_detail'),
+    path('user/<int:id>/contact_book/workshops/', WorkshopListView.as_view(), name='workshop_list'),
+    path('user/<int:id>/contact_book/workshops/<int:id>/', WorkshopDetailView.as_view(), name='workshop_detail'),
+    path('user/<int:id>/contact_book/mechanics/', MechanicListView.as_view(), name='mechanic_list'),
+    path('user/<int:id>/contact_book/mechanics/<int:id>/', MechanicDetailView.as_view(), name='mechanic_detail'),
 ]
