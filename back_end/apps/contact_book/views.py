@@ -1,188 +1,91 @@
-from django.shortcuts import render
-from .forms import StoreForm, WorkshopForm, MechanicForm, ContactForm
-from django.http import HttpResponse
-from django.core.exceptions import ValidationError
+from rest_framework import generics
+from .models import Contact_book, Contact, Store, Workshop, Mechanic
+from .serializers import ContactBookSerializer, ContactSerializer
+from .serializers import StoreSerializer, WorkshopSerializer, MechanicSerializer
 
 
-# Create your views here.
+# ContactBook Views
 
-def new_contact(request):
-    """
-    Método que en principio retorna un formulario para crear un nuevo contacto.
+class ContactBookListView(generics.ListCreateAPIView):
+    serializer_class = ContactBookSerializer
 
-    Args:
-        request(objeto): Objeto del módulo HTTP que contiene información acerca
-        de la petición entrante.
-    """
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Contact_book.objects.filter(contact__user=user_id)
 
-    if request.method =='GET':
-        try:
-            form = ContactForm()
-            context = {
-                'form': form
-            }
-            return render(request, 'new_contact.html', context)
+class ContactBookDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ContactBookSerializer
+    lookup_field = 'id'
 
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
-
-    elif request.method == 'POST':
-        try:
-            form = ContactForm(request.POST)
-
-            if form.is_valid():
-
-                if not form.cleaned_data.get('name') \
-                    or not form.cleaned_data.get('email') \
-                    or not form.cleaned_data.get('phone'):
-                        raise ValidationError('Todos los campos \
-                            son obligatorios')
-
-                form.save()
-                return HttpResponse("Contacto creado exitoxamente", status=200)
-
-            else:
-                return HttpResponse("Error al crear contacto", status=400)
-        except ValidationError as e:
-            return HttpResponse("Error: " + str(e), status=400)
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
-
-    else:
-        return HttpResponse("Petición inválida", status=400)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Contact_book.objects.filter(contact__user=user_id)
 
 
-def new_store(request):
-    """
-    Método que en principio retorna un formulario para crear una
-    nueva tienda.
+# Contact Views
 
-    Args:
-        request (objeto): Objeto del módulo HTTP que contiene información acerca
-        de la petición entrante.
-    """
+class ContactListView(generics.ListCreateAPIView):
+    serializer_class = ContactSerializer
 
-    if request.method =='GET':
-        try:
-            form = StoreForm()
-            context = {
-                'form': form
-            }
-            return render(request, 'new_store.html', context)
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Contact.objects.filter(contact_book__contact__user=user_id)
 
-    elif request.method == 'POST':
-        try:
-            form = StoreForm(request.POST)
+class ContactDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ContactSerializer
+    lookup_field = 'id'
 
-            if form.is_valid():
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Contact.objects.filter(contact_book__contact__user=user_id)
 
-                if not form.cleaned_data.get('name') \
-                    or not form.cleaned_data.get('email') \
-                    or not form.cleaned_data.get('phone'):
-                        raise ValidationError('Todos los campos \
-                            son obligatorios')
+# Store Views
 
-                form.save()
-                return HttpResponse("Tienda creada exitoxamente", status=200)
+class StoreListView(generics.ListCreateAPIView):
+    serializer_class = StoreSerializer
 
-            else:
-                return HttpResponse("Error al crear tienda", status=400)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Store.objects.filter(contact_book__contact_user=user_id)
 
-        except ValidationError as e:
-            return HttpResponse("Error: " + str(e), status=400)
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
+class StoreDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StoreSerializer
+    lookup_field = 'id'
 
-    else:
-        return HttpResponse("Petición inválida", status=400)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Store.objects.filter(contact_book__contact__user=user_id)
 
+# Workshop Views
 
-def new_workshop(request):
-    """
-    Método que en un principio retorna un formulario para crear un taller nuevo
-    Args:
-        request (objeto): Objeto del módulo HTTP que contiene información acerca
-        de la petición entrante.
-    """
+class WorkshopListView(generics.ListCreateAPIView):
+    serializer_class = WorkshopSerializer
 
-    if request.method =='GET':
-        try:
-            form = WorkshopForm
-            context = {
-                'form': form
-            }
-            return render(request, 'new_workshop copy.html', context)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Workshop.objects.filter(contact_book__contact__user=user_id)
 
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
+class WorkshopDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WorkshopSerializer
+    lookup_field = 'id'
 
-    elif request.method == 'POST':
-        try:
-            form = WorkshopForm(request.POST)
+    def get_query_set(self):
+        user_id = self.kwargs['id']
+        return Workshop.objects.filter(contact_book__contact__user=user_id)
 
-            if form.is_valid():
+# Mechanic Views
 
-                if not form.cleaned_data.get('name') \
-                        or not form.cleaned_data.get('email') \
-                        or not form.cleaned_data.get('phone'):
-                            raise ValidationError('Todos los campos \
-                                son obligatorios')
+class MechanicListView(generics.ListCreateAPIView):
+    serializer_class = MechanicSerializer
 
-                form.save()
-                return HttpResponse("Taller creado exitosamente",status=200)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Mechanic.objects.filter(contact_book__contact__user=user_id)
 
-            else:
-                return HttpResponse('Error al crear el taller', status=400)
+class MechanicDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = MechanicSerializer
+    lookup_field = 'id'
 
-        except ValidationError as e:
-            return HttpResponse("Error: " + str(e), status=400)
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
-
-    else:
-        return HttpResponse("Petición inválida", status=400)
-
-
-def new_mechanic(request):
-    """
-    Método que en principio retorn aun formulario para agregar un nuevo
-    mecánico.
-    Args:
-        request (objeto): Objeto del módulo HTTP que contiene información acerca
-        de la petición entrante.
-    """
-    if request.method =='GET':
-        try:
-            form = MechanicForm
-            context = {
-                'form': form
-            }
-            return render(request, 'new_mechanic.html', context)
-
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
-
-    elif request.method == 'POST':
-        try:
-            form = MechanicForm(request.POST)
-
-            if form.is_valid():
-
-                if not form.cleaned_data.get('name') \
-                    or not form.cleaned_data.get('email') \
-                    or not form.cleaned_data.get('phone'):
-                        raise ValidationError('Todos los campos \
-                            son obligatorios')
-                form.save()
-                return HttpResponse("Mecanico creada exitoxamente", status=200)
-
-            else:
-                return HttpResponse('Error al agregar un nuevo mecánico',
-                                    status=400)
-
-        except ValidationError as e:
-            return HttpResponse("Error: " + str(e), status=400)
-        except Exception as e:
-            return HttpResponse("Error: " + str(e), status=500)
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        return Mechanic.objects.filter(contact_book__contact__user=user_id)
