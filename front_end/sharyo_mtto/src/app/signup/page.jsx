@@ -11,10 +11,17 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import GoogleButton from 'react-google-button'
+import Image from "next/image"
 function SignupPage() {
     return (
-        <div className="flex flex-col justify-center items-center pt-10 ">
-            <h2 className="mb-5 text-4xl">Sharyo Mtto</h2>
+        <div className="flex flex-col justify-center items-center  ">
+            <Image
+                src="/sharyommto-logo-audi-2-draft-red.png"
+                width={150}
+                height={150}
+                objectFit="contain"
+                alt="logo"
+            />
             <Card className="min-w-96">
                 <CardHeader>
                     <CardTitle className="text-2xl justify-center ">Registrate</CardTitle>

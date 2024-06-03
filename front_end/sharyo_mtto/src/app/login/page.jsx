@@ -4,6 +4,7 @@
 * @see https://v0.dev/t/1ztOjIUO9hp
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
+import Image from "next/image"
 import Link from "next/link"
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -13,9 +14,17 @@ import { Separator } from "@/components/ui/separator"
 import GoogleButton from 'react-google-button'
 function LoginPage() {
     return (
-        <div className="flex flex-col justify-center items-center pt-10 ">
-            <h2 className="mb-5 text-4xl">Sharyo Mtto</h2>
-            <Card className="min-w-96">
+        <div className="flex flex-col justify-center items-center  ">
+
+            <Image
+                src="/sharyommto-logo-audi-2-draft-red.png"
+                width={150}
+                height={150}
+                objectFit="contain"
+                alt="logo"
+            />
+
+            <Card className="min-w-96 m-1">
                 <CardHeader>
                     <CardTitle className="text-2xl justify-center ">Inicio De Sesion</CardTitle>
                     <CardDescription>Porfavor ingrese sus credenciales.</CardDescription>

@@ -1,9 +1,9 @@
 import Image from "next/image";
-
+import FaqCard from "@/componentes_propios/faq/faq-card";
 export default function Home() {
   return (
     <main>
-      <div>Hola</div>
+      <FaqCard></FaqCard>
     </main >
   );
 }
