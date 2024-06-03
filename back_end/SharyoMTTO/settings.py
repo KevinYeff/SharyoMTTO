@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,8 +47,28 @@ INSTALLED_APPS = [
     # REST framework
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    
+    # otros
+    'drf_spectacular',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.TokenAuthentication',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+    
+}
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,4 +155,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'user.User'
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '63a811c9086e37'
+EMAIL_HOST_PASSWORD = '9015d4e8dd2b69'
+DEFAULT_FROM_EMAIL = 'infor@admin.com'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
+
 

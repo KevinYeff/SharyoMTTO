@@ -1,6 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from .manager import UserManager
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your models here.
 
@@ -43,36 +46,6 @@ class City(models.Model):
         
         
  # *** SECCION USUARIO ***  
-      
- # UserManager para el modelo User    
-    
-class UserManager(BaseUserManager):
-    def create_user(self, username, name, last_name, email, mobile, password, **extra_fields):
-        if not email:
-            raise ValueError('El usuario debe tener un correo electrónico')
-        
-        user = self.model(email=email, username=username, name=name, last_name=last_name, mobile=mobile, **extra_fields)
-        
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-    
-    def create_superuser(self, username, name, last_name, email, mobile, password):
-        user = self.create_user(
-            username, 
-            password,  
-            name,
-            last_name,
-            email,
-            mobile  
-        )
-        
-        user.is_user = True 
-        user.is_superuser = True
-        user.is_admin = True
-        
-        user.save(using=self._db)
-        return user   
 
 # Modelo para la tabla de "usuario"
      
@@ -81,7 +54,7 @@ class User(AbstractBaseUser):
     # Informacion personal
     name = models.CharField('Nombre', max_length=20)
     last_name = models.CharField('Apellido', max_length=20)
-    mobile = models.CharField('Celular', max_length=20, blank=False, unique=True)
+    mobile = models.CharField('Celular', max_length=20, unique=True)
     phone = models.CharField(max_length=20, blank=True)
     email = models.EmailField('Correo electronico', unique= True)
     birth_date = models.DateField(default=timezone.now())
@@ -93,33 +66,42 @@ class User(AbstractBaseUser):
     username = models.CharField('Nombre de usuario', unique=True, max_length=20)
     
     # Informacion de accesos
-    is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    hide_email = models.BooleanField(default=True)
-    objects = UserManager()
+
     date_joined = models.DateTimeField(default=timezone.now())
+    last_login = models.DateTimeField(default=timezone.now())
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'name', 'last_name', 'mobile']
     
+    objects = UserManager()
+    
     def __str__(self):
         return f'Usuario {self.username}'
     
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
-    
-    def has_module_perms(self, app_label):
-        return True
-    
     @property
-    def is_staff(self):
-        return self.is_admin
+    def get_full_name(self):
+        return f'{self.name} {self.last_name}'
+    
+    def tokens(self):
+        refresh_token = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh_token),
+            'access': str(refresh_token.access_token)    
+        }
         
     class Meta:
         db_table = 'usuario'
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
         
-# *** FIN SECCION USUARIO ***
+
+class OneTimePassword(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6, unique=True)
+    
+    def __str__(self):
+        return f'{self.user.name} - passcode'
