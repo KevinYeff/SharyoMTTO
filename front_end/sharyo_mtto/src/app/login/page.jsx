@@ -1,13 +1,15 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+// Este es el archivo de LoginPage.js que maneja el estado del usuario y guarda el token en las cookies
+
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/methods/zustand/userZustand"
+import { useUser } from "@/methods/zustand/userZustand";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -55,6 +57,9 @@ function LoginPage() {
             }
 
             setUser(data);
+            console.log("Se esta guardando la cookie")
+            document.cookie = `access_token=${data.access_token}; path=/; SameSite=Lax`; // Guarda el token en las cookies con SameSite
+
             router.push("/dashboard"); // Redirige al usuario a la página del dashboard
         } catch (error) {
             console.error("Error en el login:", error);
