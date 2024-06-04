@@ -13,7 +13,7 @@ import { useUser } from "@/methods/zustand/userZustand";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import { login } from "@/lib/auth";
 // Define form schema
 const formSchema = z.object({
     email: z.string().email(),
@@ -57,6 +57,7 @@ function LoginPage() {
             }
 
             setUser(data);
+            await login(data);
             console.log("Se esta guardando la cookie")
             document.cookie = `access_token=${data.access_token}; path=/; SameSite=Lax`; // Guarda el token en las cookies con SameSite
 
