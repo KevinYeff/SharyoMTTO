@@ -1,6 +1,6 @@
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
 from django.utils.http import urlsafe_base64_decode
@@ -13,7 +13,8 @@ from .serializers import (UserRegisterSerializer,
                           LoginUserSerializer, 
                           PasswordResetRequestViewSerializer, 
                           SetNewPasswordSerializer,
-                          LogoutUserSerializer)
+                          LogoutUserSerializer,
+                          ProfileUserSerializer)
 
 
 # Create your views here.
@@ -109,5 +110,25 @@ class LogoutUserView(GenericAPIView):
         serializer.save()
         return Response({'message': 'Sesión cerrada exitosamente.'}, status=status.HTTP_200_OK)
         
-
-        
+class ProfileUserView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ProfileUserSerializer
+    
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(user=user)
+    
+    def get(self, request):
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request):
+        serializer = self.serializer_class(request.user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({'message': 'Usuario eliminado exitosamente.'}, status=status.HTTP_200_OK)

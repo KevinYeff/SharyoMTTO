@@ -72,6 +72,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now())
+    last_login = models.DateTimeField(default=timezone.now())
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'name', 'last_name', 'mobile']
