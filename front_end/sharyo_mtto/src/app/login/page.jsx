@@ -1,5 +1,3 @@
-// Este es el archivo de LoginPage.js que maneja el estado del usuario y guarda el token en las cookies
-
 "use client";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/methods/zustand/userZustand";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { login } from "@/lib/auth";
+
 // Define form schema
 const formSchema = z.object({
     email: z.string().email(),
@@ -22,13 +21,14 @@ const formSchema = z.object({
 
 function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const setUser = useUser((state) => state.setUser);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            password: "",
+            email: searchParams.get("email") || "",
+            password: searchParams.get("password") || "",
         },
     });
 
