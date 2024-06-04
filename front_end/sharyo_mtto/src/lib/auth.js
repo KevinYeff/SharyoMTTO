@@ -45,6 +45,10 @@ export async function login(formData) {
 }
 
 
+export async function logout() {
+    // Destroy the session
+    cookies().delete("session");
+}
 
 
 
