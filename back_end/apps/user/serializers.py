@@ -10,6 +10,7 @@ from django.utils.encoding import force_str, smart_bytes
 from django.urls import reverse
 
 from .models import User
+from apps.vehicles.serializers import VehicleSerializer
 from .utils import send_normal_email
 
 
@@ -148,6 +149,7 @@ class LogoutUserSerializer(serializers.Serializer):
             return self.fail('bad_token')
    
 class ProfileUserSerializer(serializers.ModelSerializer):
+    vehicles = VehicleSerializer(read_only=True, many=True)
     class Meta:
         model = User
         fields = '__all__'
