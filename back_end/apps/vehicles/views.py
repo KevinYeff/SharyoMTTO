@@ -73,18 +73,6 @@ class MileageDetailView(RetrieveUpdateDestroyAPIView):
         vehicle_id = self.kwargs['vehicle_id']
         return Mileage.objects.filter(vehicle_id=vehicle_id)
     
-
-
-    """View para agregar un registro de kilometraje"""
-    serializer_class = MiliageSerializer
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED) 
-    
 # Consumption view
 
 class ConsumptionRegisterView(CreateAPIView):
