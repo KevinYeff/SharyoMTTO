@@ -96,7 +96,7 @@ class Consumption(models.Model):
 class Mileage(models.Model):
     mileage = models.IntegerField(blank=False)
     last_date = models.DateField(default=timezone.now)
-    id_vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.date)

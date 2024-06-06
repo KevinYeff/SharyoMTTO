@@ -4,7 +4,7 @@ from apps.user.models import User
 
 
 class VehicleSerializer(ModelSerializer): 
-
+   
     class Meta:
         model = Vehicle
         fields = ['plate', 
@@ -26,10 +26,9 @@ class VehicleSerializer(ModelSerializer):
             vehicle_category = validated_data['vehicle_category'], 
             user = validated_data.get('user')
         )
-        
+        vehicle.save()
         return vehicle
     
-
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -41,19 +40,20 @@ class VehicleSerializer(ModelSerializer):
         return instance
 
 
-
-
-
 class MiliageSerializer(ModelSerializer):
-    vehicle = VehicleSerializer(many=True)
     
     class Meta:
         model = Mileage
-        fields = '__all__'
-        
+        fields = ['mileage', 'last_date', 'vehicle']
+                
     def create(self, validated_data):
-        return Vehicle.objects.create(**validated_data)
-        
+        mileage = Mileage.objects.create(
+            mileage = validated_data['mileage'],
+            last_date = validated_data['last_date'],
+            vehicle = validated_data['vehicle'],
+        )  
+        return mileage
+           
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
