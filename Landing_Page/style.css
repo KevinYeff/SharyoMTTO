@@ -8,7 +8,7 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.2;
 }
-
+/*nav bar*/
 header {
     background: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -28,9 +28,13 @@ header .container {
 }
 
 header .logo img {
-    max-width: 100px;
+    max-width: 120px;
 }
-
+.toggle{
+    background: none;
+    border:none;
+    display:none;
+}
 nav ul {
     list-style: none;
     display: flex;
@@ -48,9 +52,37 @@ nav .sign-up {
     padding: 10px 20px;
     border-radius: 5px;
 }
+@media (max-width: 768px) {
+    .toggle {
+        display: block;
+        padding-left: 200px;
+    }
 
+    nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 120px;
+        right: 20px;
+        background: #d6d1d1;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+/*hero section*/
 .hero {
-    background: #f8f8f8;
+    background: #d3d3d3;
     padding: 60px 0;
 }
 
@@ -77,11 +109,6 @@ nav .sign-up {
     margin-bottom: 20px;
 }
 
-.app-buttons img {
-    height: 150px;
-    margin-right: 10px;
-}
-
 .hero-image {
     flex: 1;
     text-align: right;
@@ -91,9 +118,19 @@ nav .sign-up {
     max-width: 100%;
 }
 
+@media (max-width: 768px) {
+  .hero .container{
+    display:block;
+  }  
+
+
+}
+
+
 /*agenda tu mantenimiento*/
 .how-it-works {
     padding: 60px 0;
+    background: #f8f8f8;
     text-align: center;
 }
 
@@ -201,7 +238,7 @@ nav .sign-up {
 /*testimonios*/
 .testimonials {
     padding: 60px 0;
-    background: #f8f8f8;
+    background: #d3d3d3;
     text-align: center;
 }
 
@@ -226,7 +263,7 @@ nav .sign-up {
 }
 
 .testimonial-card img {
-    width: 40px;
+    width: 60px;
     border-radius: 10px;
     margin-bottom: 10px;
 }
@@ -235,6 +272,15 @@ nav .sign-up {
     margin-bottom: 10px;
 }
 
+@media (max-width: 768px){
+.testimonial-cards{
+    flex-direction: column;
+}
+.testimonial-card{
+    width: 100%;
+}
+
+}
 
 /* FAQ Section */
 .faq {
@@ -297,14 +343,6 @@ nav .sign-up {
     margin-bottom: 1rem;
 }
 
-.faq-content a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.faq-content a:hover {
-    text-decoration: underline;
-}
 
 /* Media Queries */
 @media (max-width: 768px) {
@@ -317,48 +355,8 @@ nav .sign-up {
     }
 }
 
-/*descargar app*/
-.download-app {
-    padding: 60px 0;
-    text-align: center;
-}
 
-.download-app .container {
-    display: flex;
-    align-items: center;
-}
 
-.download-content {
-    flex: 1;
-    text-align: left;
-}
-
-.download-content h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.download-content span {
-    color: #e74c3c;
-}
-
-.download-content p {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-.download-app .app-buttons img {
-    height: 100px;
-    margin-right: 10px;
-}
-.app-image {
-    flex: 1;
-    text-align: right;
-}
-
-.app-image img {
-    max-width: 100%;
-}
 
 /* Footer */
 footer {
@@ -405,4 +403,19 @@ footer .container {
 .footer-bottom {
     text-align: center;
     margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .footer-section {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .footer-section .social-media {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        margin-top: 1rem;
+    }
 }
