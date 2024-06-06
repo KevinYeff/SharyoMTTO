@@ -1,5 +1,5 @@
-from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView
-from .models import Vehicle
+from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from .models import Vehicle, Mileage
 from .serializers import VehicleSerializer, MiliageSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -53,3 +53,34 @@ class MileageRegisterView(CreateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)        
 
+class MiliageListView(ListCreateAPIView):
+    serializer_class = MiliageSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        vehicle_id = self.kwargs['vehicle_id']
+        return Mileage.objects.filter(vehicle_id=vehicle_id)
+    
+class MileageDetailView(RetrieveUpdateDestroyAPIView):
+    """ View que permite GET/PUT/DELETE de kilometrajes."""
+    serializer_class = MiliageSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        vehicle_id = self.kwargs['vehicle_id']
+        return Mileage.objects.filter(vehicle_id=vehicle_id)
+    
+#  view Consumption
+
+
+    """View para agregar un registro de kilometraje"""
+    serializer_class = MiliageSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED) 
+    
