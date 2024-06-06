@@ -44,12 +44,12 @@ class MiliageSerializer(ModelSerializer):
     
     class Meta:
         model = Mileage
-        fields = ['mileage', 'last_date', 'vehicle']
+        fields = ['mileage', 'date', 'vehicle']
                 
     def create(self, validated_data):
         mileage = Mileage.objects.create(
             mileage = validated_data['mileage'],
-            last_date = validated_data['last_date'],
+            last_date = validated_data['date'],
             vehicle = validated_data['vehicle'],
         )  
         return mileage
@@ -67,11 +67,18 @@ class MiliageSerializer(ModelSerializer):
 
 class ComsuptionSerializer(ModelSerializer):
     class Meta:
-        model = Mileage
-        fields = '__all__'
+        model = Consumption
+        fields = ['km_traveled', 'amount', 'price', 'date', 'vehicle']
         
     def create(self, validated_data):
-        return Vehicle.objects.create(**validated_data)
+        consumption = Consumption.objects.create(
+            km_traveled = validated_data['km_traveled'],
+            amount = validated_data['amount'],
+            price = validated_data['price'],
+            date = validated_data['date'],
+            vehicle = validated_data['vehicle'],
+        )  
+        return consumption
         
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():

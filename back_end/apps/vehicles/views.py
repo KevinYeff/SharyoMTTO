@@ -1,9 +1,11 @@
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
-from .models import Vehicle, Mileage
-from .serializers import VehicleSerializer, MiliageSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+
+from .models import Vehicle, Mileage, Consumption
+from .serializers import VehicleSerializer, MiliageSerializer, ComsuptionSerializer
+
 
 
 # Vehicle Views   
@@ -71,7 +73,6 @@ class MileageDetailView(RetrieveUpdateDestroyAPIView):
         vehicle_id = self.kwargs['vehicle_id']
         return Mileage.objects.filter(vehicle_id=vehicle_id)
     
-#  view Consumption
 
 
     """View para agregar un registro de kilometraje"""
@@ -84,3 +85,33 @@ class MileageDetailView(RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
     
+# Consumption view
+
+class ConsumptionRegisterView(CreateAPIView):
+    """View para agregar un registro de kilometraje"""
+    serializer_class = ComsuptionSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED) 
+
+class ConsumptionListView(ListCreateAPIView):
+    serializer_class = ComsuptionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        vehicle_id = self.kwargs['vehicle_id']
+        return Consumption.objects.filter(vehicle_id=vehicle_id)
+    
+class ConsumptionDetailView(RetrieveUpdateDestroyAPIView):
+    """ View que permite GET/PUT/DELETE de kilometrajes."""
+    serializer_class = ComsuptionSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+    
+    def get_queryset(self):
+        vehicle_id = self.kwargs['vehicle_id']
+        return Consumption.objects.filter(vehicle_id=vehicle_id)

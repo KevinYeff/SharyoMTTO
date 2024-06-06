@@ -80,7 +80,7 @@ class Vehicle(models.Model):
     
 class Consumption(models.Model):
     km_traveled = models.FloatField(blank=False, null=False)
-    liters_amount = models.FloatField(blank=False, null=False)
+    amount = models.FloatField(blank=False, null=False)
     price = models.FloatField(blank=False, null=False)
     date = models.DateField(default=timezone.now())
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
