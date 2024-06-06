@@ -14,6 +14,9 @@ const links = [
     { name: 'Dashboard', href: '/dashboard', icon: Squares2X2Icon },
     { name: 'Calendario', href: '/dashboard/calendario', icon: CalendarIcon },
     { name: 'Tus Autos', href: '/dashboard/autos', icon: TruckIcon },
+    { name: 'Tus Talleres', href: '/dashboard/talleres', icon: TruckIcon },
+    { name: 'Tus Tiendas', href: '/dashboard/tiendas', icon: TruckIcon },
+    { name: 'Tus Mecanicos', href: '/dashboard/mecanicos', icon: TruckIcon },
 ];
 
 export default function NavLinks() {

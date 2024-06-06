@@ -27,6 +27,7 @@ function LoginPage() {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
+
             email: searchParams.get("email") || "",
             password: searchParams.get("password") || "",
         },
@@ -59,7 +60,7 @@ function LoginPage() {
             setUser(data);
             await login(data);
             console.log("Se esta guardando la cookie")
-            document.cookie = `access_token=${data.access_token}; path=/; SameSite=Lax`; // Guarda el token en las cookies con SameSite
+            document.cookie = `user_id=${data.id}; path=/; SameSite=Lax`; // Guarda el token en las cookies con SameSite
 
             router.push("/dashboard"); // Redirige al usuario a la página del dashboard
         } catch (error) {

@@ -8,6 +8,7 @@ export default function Layout({ children }) {
             </div>
             <div className="flex-grow p-4 md:p-6">
                 <div className="bg-gray-100 h-full w-full mx-auto rounded-lg p-5 shadow-md">
+
                     {children}
                 </div>
             </div>
