@@ -13,7 +13,7 @@ class Contact(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     
     def __str__(self):
         return self.name + " " + self.last_name
@@ -65,8 +65,9 @@ class Mechanic(models.Model):
     specialization = models.ManyToManyField(Specialization)
     
     def __str__(self):
-        return self.name + " " + self.last_name + " " + self.specialization + " " + self.city
-    
+        specializations = ', '.join([str(spec) for spec in self.specialization.all()])
+        return f"{self.name} {self.last_name} ({specializations}) {self.city}"
+
     class Meta:
         db_table = 'mechanic'
         verbose_name = 'Mechanic'
