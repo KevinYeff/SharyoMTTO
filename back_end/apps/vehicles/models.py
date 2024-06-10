@@ -61,17 +61,17 @@ class Vehicle(models.Model):
         (GAS, "GAS"),)
     
     plate = models.CharField(max_length=10, unique=True)
-    model = models.IntegerField(blank=False)
-    description = models.TextField(max_length=250, blank=True)
+    model = models.IntegerField(max_length=4, blank=True, null=True)
+    description = models.TextField(max_length=250, blank=True, null=True)
     fuel_type = models.CharField(max_length=15, choices=FUEL_CHOICES, default=GASOLINE)
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    brand = models.ForeignKey(Vehicle_brand, on_delete=models.CASCADE)
-    vehicle_category = models.ForeignKey(Vehicle_category, on_delete=models.CASCADE)
-    vehicle_type = models.ForeignKey(Vehicle_type, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name= "user", on_delete=models.CASCADE, null=True)
+    brand = models.ForeignKey(Vehicle_brand, on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle_category = models.ForeignKey(Vehicle_category, on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle_type = models.ForeignKey(Vehicle_type, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.plate
+        return self.user.username
     
     class Meta:
         db_table = 'vehicle'
@@ -80,7 +80,7 @@ class Vehicle(models.Model):
     
 class Consumption(models.Model):
     km_traveled = models.FloatField(blank=False, null=False)
-    liters_amount = models.FloatField(blank=False, null=False)
+    amount = models.FloatField(blank=False, null=False)
     price = models.FloatField(blank=False, null=False)
     date = models.DateField(default=timezone.now())
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
@@ -95,8 +95,8 @@ class Consumption(models.Model):
         
 class Mileage(models.Model):
     mileage = models.IntegerField(blank=False)
-    last_date = models.DateField(default=timezone.now)
-    id_vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.date)

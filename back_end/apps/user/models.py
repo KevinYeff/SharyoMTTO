@@ -74,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now())
     last_login = models.DateTimeField(default=timezone.now())
@@ -96,6 +97,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             "refresh": str(refresh_token),
             "access": str(refresh_token.access_token),
         }
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
 
     class Meta:
         db_table = "usuario"
