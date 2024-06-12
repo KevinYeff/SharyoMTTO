@@ -14,13 +14,14 @@ if [ -f "db.sqlite3" ]; then
     rm db.sqlite3
 fi
 
+# Drop and recreate the database
+python manage.py flush --no-input
+
 # Convert static asset files
 python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
-python manage.py makemigrations user
-python manage.py makemigrations contact_book
-python manage.py makemigrations vehicles
+python manage.py makemigrations user contact_book vehicles
 python manage.py migrate
 
 
