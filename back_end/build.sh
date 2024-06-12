@@ -10,7 +10,10 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py makemigrations user
-python manage.py makemigrations contact_book
-python manage.py makemigrations vehicles
-
 python manage.py migrate
+
+python manage.py makemigrations contact_book
+python manage.py migrate contact_book
+
+python manage.py makemigrations vehicles
+python manage.py migrate vehicles
