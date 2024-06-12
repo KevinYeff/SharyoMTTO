@@ -10,8 +10,8 @@ find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc" -delete
 
 # Drop and recreate the database (specific to PostgreSQL)
-psql -c "DROP DATABASE IF EXISTS sharyomtto_pg;" -U $DATABASE_USER
-psql -c "CREATE DATABASE sharyomtto_pg;" -U $DATABASE_USER
+PGPASSWORD=$DATABASE_PASSWORD psql -h $DATABASE_HOST -U $DATABASE_USER -c "DROP DATABASE IF EXISTS $DATABASE_NAME;"
+PGPASSWORD=$DATABASE_PASSWORD psql -h $DATABASE_HOST -U $DATABASE_USER -c "CREATE DATABASE $DATABASE_NAME;"
 
 # Convert static asset files
 python manage.py collectstatic --no-input
