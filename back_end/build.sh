@@ -9,4 +9,7 @@ pip install -r requierements.txt
 python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
+pytohn manage.py makemigrations user
+pytohn manage.py makemigrations contact_book
+pytohn manage.py makemigrations vehicles
 python manage.py migrate
