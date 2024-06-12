@@ -9,13 +9,9 @@ pip install -r requierements.txt
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc" -delete
 
-# Delete local SQLite database if it exists (adjust if needed for your setup)
-if [ -f "db.sqlite3" ]; then
-    rm db.sqlite3
-fi
-
-# Drop and recreate the database
-python manage.py flush --no-input
+# Drop and recreate the database (specific to PostgreSQL)
+psql -c "DROP DATABASE IF EXISTS sharyomtto_pg;" -U $DATABASE_USER
+psql -c "CREATE DATABASE sharyomtto_pg;" -U $DATABASE_USER
 
 # Convert static asset files
 python manage.py collectstatic --no-input
