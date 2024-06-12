@@ -31,9 +31,9 @@ class Vehicle_category(models.Model):
     
 class Vehicle_brand(models.Model):
     brand = models.CharField(max_length=20)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    vehicle_types = models.ManyToManyField(Vehicle_type)
-    vehicle_categories = models.ManyToManyField(Vehicle_category)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=True)
+    vehicle_types = models.ForeignKey(Vehicle_type, on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle_categories = models.ForeignKey(Vehicle_category, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         return self.brand 
@@ -61,6 +61,7 @@ class Vehicle(models.Model):
         (GAS, "GAS"),)
     
     plate = models.CharField(max_length=10, unique=True)
+    image = models.ImageField(upload_to='images/', default='images/None/No0img.jpg', null=True, blank=True)
     model = models.IntegerField(max_length=4, blank=True, null=True)
     description = models.TextField(max_length=250, blank=True, null=True)
     fuel_type = models.CharField(max_length=15, choices=FUEL_CHOICES, default=GASOLINE)
@@ -71,7 +72,7 @@ class Vehicle(models.Model):
     vehicle_type = models.ForeignKey(Vehicle_type, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.plate
     
     class Meta:
         db_table = 'vehicle'

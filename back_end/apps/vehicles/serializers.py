@@ -1,10 +1,14 @@
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, ImageField, SlugRelatedField
 from .models import Vehicle, Mileage, Consumption
 from apps.user.models import User
 
 
 class VehicleSerializer(ModelSerializer): 
-   
+    image = ImageField(max_length=None, use_url=True)
+    brand = SlugRelatedField(many= True, read_only=True, slug_field='brand')
+    vehicle_category = SlugRelatedField(many= True, read_only=True, slug_field='category')
+    vehicle_type = SlugRelatedField(many= True, read_only=True, slug_field='type')
+    
     class Meta:
         model = Vehicle
         fields = ['plate', 
@@ -14,6 +18,7 @@ class VehicleSerializer(ModelSerializer):
                   'brand', 
                   'vehicle_category', 
                   'vehicle_type',
+                  'image',
                   'user']
         
     def create(self, validated_data):
@@ -22,9 +27,11 @@ class VehicleSerializer(ModelSerializer):
             model = validated_data['model'],
             description = validated_data['description'],
             fuel_type = validated_data['fuel_type'],
-            brand = validated_data['brand'],
-            vehicle_category = validated_data['vehicle_category'], 
-            user = validated_data.get('user')
+            brand = validated_data.get('brand'),
+            vehicle_type = validated_data.get('vehicle_type'),
+            vehicle_category = validated_data.get('vehicle_category'), 
+            user = validated_data.get('user'),
+            image = validated_data.get('image')
         )
         vehicle.save()
         return vehicle
