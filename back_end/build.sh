@@ -8,9 +8,5 @@ pip install -r requierements.txt
 # Convert static asset files
 python manage.py collectstatic --no-input
 
-# Clean up old migrations
-find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "*/migrations/*.pyc" -delete
-
 # Apply any outstanding database migrations
 python manage.py migrate
