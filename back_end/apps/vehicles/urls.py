@@ -25,4 +25,6 @@ urlpatterns = [
     path('consumption_register/', ConsumptionRegisterView.as_view(), name='consumption_register'),
     path('consumption_list/<int:vehicle_id>/', ConsumptionListView.as_view(), name='consumption_list'),
     path('consumption_list/<int:vehicle_id>/consumption_register/<int:id>/', ConsumptionDetailView.as_view(), name='consumption_detail'),
+    
+    #path('')
 ]
