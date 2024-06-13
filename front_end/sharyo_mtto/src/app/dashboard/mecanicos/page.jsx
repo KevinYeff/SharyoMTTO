@@ -1,21 +1,25 @@
 
-import React from 'react'
-import AddVehicleModal from '@/componentes_propios/modals/AddVehicleModal'
-import AddTallerModal from '@/componentes_propios/modals/AddTallerModal'
-import AddMecanicoModal from '@/componentes_propios/modals/AddMecanicoModal'
-import AddTiendaModal from '@/componentes_propios/modals/AddTiendaModal'
-
-function page() {
+import { getVehiculos } from '@/actions/mecanicos';
+import CardVehiculo from '@/componentes_propios/vehiculos/CardMecanico';
+import AddVehicleModal from '@/componentes_propios/modals/AddMecanicoModal';
+import { getCookies } from '@/actions/getCookies';
+export default async function Mecanicos() {
+    const mecanicos = await getMecanicos();
+    const { session, userId } = await getCookies();
     return (
-        <div className="flex mx-10 justify-between items-center">
-            <h2 className="text-3xl font-semibold mb-4">Tus vehiculos</h2>
-            <AddVehicleModal />
+        <div>
+            <div className="pb-4 flex mx-10 justify-between items-center">
+                <h2 className="text-3xl font-semibold mb-4">Tus Mecanicos</h2>
+                <AddVehicleModal session={session} userId={userId} />
 
-            <AddTallerModal />
-            <AddMecanicoModal />
-            <AddTiendaModal />
+
+
+            </div>
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+                {vehiculos.map((mecanico) => (
+                    <CardVehiculo key={vehiculo.plate} vehiculo={vehiculo} />
+                ))}
+            </div>
         </div>
-    )
+    );
 }
-
-export default page

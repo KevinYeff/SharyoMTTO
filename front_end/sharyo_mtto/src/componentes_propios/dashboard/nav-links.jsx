@@ -4,7 +4,10 @@ import {
     DocumentDuplicateIcon,
     CalendarIcon,
     TruckIcon,
-    Squares2X2Icon
+    Squares2X2Icon,
+    BuildingStorefrontIcon,
+    HomeModernIcon,
+    UserIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { cilCarAlt } from '@coreui/icons';
@@ -14,9 +17,9 @@ const links = [
     { name: 'Dashboard', href: '/dashboard', icon: Squares2X2Icon },
     { name: 'Calendario', href: '/dashboard/calendario', icon: CalendarIcon },
     { name: 'Tus Autos', href: '/dashboard/autos', icon: TruckIcon },
-    { name: 'Tus Talleres', href: '/dashboard/talleres', icon: TruckIcon },
-    { name: 'Tus Tiendas', href: '/dashboard/tiendas', icon: TruckIcon },
-    { name: 'Tus Mecanicos', href: '/dashboard/mecanicos', icon: TruckIcon },
+    { name: 'Tus Talleres', href: '/dashboard/talleres', icon: HomeModernIcon },
+    { name: 'Tus Tiendas', href: '/dashboard/tiendas', icon: BuildingStorefrontIcon },
+    { name: 'Tus Mecanicos', href: '/dashboard/mecanicos', icon: UserIcon },
 ];
 
 export default function NavLinks() {

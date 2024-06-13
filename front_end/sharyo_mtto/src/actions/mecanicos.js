@@ -5,13 +5,13 @@ import { getUrl } from "@/lib/url";
 
 const APIURL = getUrl();
 
-export async function getTalleres() {
+export async function getMecanicos() {
     //TODO ver como hacer el fetch
 
     const session = await cookies().get("session")?.value;
     const user_id = await cookies().get("user_id")?.value;
     if (!session) return [];
-    const res = await fetch(`${APIURL}/contact_book/workshops/`, {
+    const res = await fetch(`${APIURL}/vehicles/user_vehicles/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export async function getTalleres() {
     });
 
     const data = await res.json();
-    await console.log(data)
     return data;
 
 }
+

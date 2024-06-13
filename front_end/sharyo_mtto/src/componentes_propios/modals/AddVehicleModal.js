@@ -39,12 +39,22 @@ const AddVehicleModal = ({ session, userId }) => {
         const res = await fetch('http://localhost:8000/vehicles/add_vehicle/', {
             method: 'POST',
             headers: {
+
                 'Authorization': `Bearer ${session}`,
             },
             body: formData,
         });
         const data = await res.json();
         console.log(data);
+        if (res.ok) {
+            // If response is OK, refresh the page
+            window.location.reload();
+        } else {
+            // Handle error
+            const data = await res.json();
+            console.error('Error:', data);
+        }
+
         closeModal();
     };
 

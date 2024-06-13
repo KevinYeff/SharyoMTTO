@@ -72,6 +72,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -80,7 +81,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # cors
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "SharyoMTTO.urls"
@@ -175,3 +175,7 @@ EMAIL_USE_TLS = True
 
 # Cors
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+# Csrf trusted origins
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "https://sharyo-mtto.vercel.app"]
