@@ -97,3 +97,14 @@ class MechanicSerializer(serializers.ModelSerializer):
             specialization, created = Specialization.objects.get_or_create(**specialization_data)
             instance.specializations.add(specialization)
         return instance
+
+
+class ContactBookSerializer(serializers.ModelSerializer):
+    contacts = ContactSerializer(many=True, read_only=True)
+    workshops = WorkshopSerializer(many=True, read_only=True)
+    mechanics = MechanicSerializer(many=True, read_only=True)
+    stores = StoreSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Contact_book
+        fields = ('id', 'user', 'contacts', 'workshops', 'mechanics', 'stores')
