@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.vehicles',
     'apps.contact_book',
+    'apps.work_order',
     
     # Django apps
     'django.contrib.admin',

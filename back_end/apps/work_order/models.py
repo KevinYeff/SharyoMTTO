@@ -10,20 +10,21 @@ class Work_order(models.Model):
     PREVENTIVE = "PREVENTIVO"
     PREDICTIVE = "PREDICTIVO"
     
-    FUEL_CHOICES = (
+    MTTO_CHOICES = (
         (CORRECTIVE, "CORRECTIVO"),
         (PREVENTIVE, "PREVENTIVO"),
         (PREDICTIVE, "PREDICTIVO"),)
     
+    name = models.CharField(max_length=250)
     start_date = models.DateTimeField(default=timezone.now(), blank=False)
     finish_date = models.DateTimeField(blank=True)
     responsable = models.CharField(max_length=50, blank=False)
     fail_detected = models.TextField(max_length=250, blank=True)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    mtto_type = models.CharField(max_length=15, choices=FUEL_CHOICES, default=CORRECTIVE)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='work_orders')
+    mtto_type = models.CharField(max_length=15, choices=MTTO_CHOICES, default=CORRECTIVE)
     
     def __str__(self):
-        return str(self.id) + " " + self.mtto_type + " " + self.vehicle
+        return str(self.name)
     
     class Meta:
         db_table = 'work_order'
