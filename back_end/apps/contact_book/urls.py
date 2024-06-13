@@ -1,21 +1,23 @@
 from django.urls import path
 from .views import (
-    ContactBookListView, ContactBookDetailView,
-    ContactListView, ContactDetailView,
-    StoreListView, StoreDetailView,
-    WorkshopListView, WorkshopDetailView,
-    MechanicListView, MechanicDetailView
+    ContactBookListView, AddContactView, ContactDetailview, ContactListview,
+    AddMechanicView, MechanicDetailView, MechanicListView, AddStoreView,
+    StoreDetailView, StoreListView, AddWorkshopView, WorkshopDetailView,
+    WorkshopListview
 )
 
 urlpatterns = [
-    path('user/<int:user_id>/contact_book/', ContactBookListView.as_view(), name='contact_book_list'),
-    path('user/<int:user_id>/contact_book/<int:cb_id>/', ContactBookDetailView.as_view(), name='contact_book_detail'),
-    path('user/<int:user_id>/contact_book/contacts/', ContactListView.as_view(), name='contact_list'),
-    path('user/<int:user_id>/contact_book/contacts/<int:contact_id>/', ContactDetailView.as_view(), name='contact_detail'),
-    path('user/<int:user_id>/contact_book/stores/', StoreListView.as_view(), name='store_list'),
-    path('user/<int:user_id>/contact_book/stores/<int:store_id>/', StoreDetailView.as_view(), name='store_detail'),
-    path('user/<int:user_id>/contact_book/workshops/', WorkshopListView.as_view(), name='workshop_list'),
-    path('user/<int:user_id>/contact_book/workshops/<int:workshop_id>/', WorkshopDetailView.as_view(), name='workshop_detail'),
-    path('user/<int:user_id>/contact_book/mechanics/', MechanicListView.as_view(), name='mechanic_list'),
-    path('user/<int:user_id>/contact_book/mechanics/<int:mechanic_id>/', MechanicDetailView.as_view(), name='mechanic_detail'),
+    path('', ContactBookListView.as_view(), name='contact_book_list'),
+    path('add_contact/', AddContactView.as_view(), name='add-contact'),
+    path('contacts/<int:id>', ContactDetailview.as_view(), name='contact-details'),
+    path('contacts/', ContactListview.as_view(), name = 'contacts-list'),
+    path('add_mechanic/', AddMechanicView.as_view(), name = 'add-mechanic'),
+    path('mechanics/<int:id>', MechanicDetailView.as_view(), name = 'mechanic-details'),
+    path('mechanics/', MechanicListView.as_view(), name = 'mechanic-list'),
+    path('add_store/', AddStoreView.as_view(), name = 'add-store'),
+    path('stores/<int:id>', StoreDetailView.as_view(), name = 'store-details'),
+    path('stores/', StoreListView.as_view(), name = 'stores-list'),
+    path('add_workshop/', AddWorkshopView.as_view(), name = 'add-workshop'),
+    path('workshops/<int:id>', WorkshopDetailView.as_view(), name = 'workshop-details'),
+    path('workshops/', WorkshopListview.as_view(), name = 'workshops-list'),
 ]

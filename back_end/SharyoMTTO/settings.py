@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     # SharyoMTTP Apps
     "apps.user",
     "apps.vehicles",
-    "apps.contact_book",
+    "apps.contact_book.apps.ContactBookConfig",
     # Django apps
     "django.contrib.admin",
     "django.contrib.auth",
