@@ -1,18 +1,18 @@
 from rest_framework import generics, permissions
 from .models import Contact_book, Contact, Store, Workshop, Mechanic
-from .serializers import ContactSerializer
+from .serializers import ContactSerializer, ContactBookSerializer
 from .serializers import StoreSerializer, WorkshopSerializer, MechanicSerializer
 
 
 # ContactBook Views
 
-class ContactBookListView(generics.RetrieveUpdateDestroyAPIView):
-
+class ContactBookListView(generics.ListCreateAPIView):
+    serializer_class = ContactBookSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self):
+    def get_queryset(self):
         user = self.request.user
-        contact_book = Contact_book.objects.get(user=user)
+        contact_book = Contact_book.objects.filter(user=user)
         return contact_book
 
 
