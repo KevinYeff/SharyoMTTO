@@ -27,7 +27,7 @@ class StoreSerializer(serializers.ModelSerializer):
         specializations_data = validated_data.pop('specializations')
         store = Store.objects.create(**validated_data)
         for specialization_data in specializations_data:
-            specialization, created = Specialization.objects.create(store=store, **specialization_data)
+            specialization, created = Specialization.objects.get_or_create(**specialization_data)
             store.specializations.add(specialization)
         return store
 
@@ -37,7 +37,7 @@ class StoreSerializer(serializers.ModelSerializer):
         instance.specializations.clear()
 
         for specialization_data in specializations_data:
-            specialization, created = Specialization.objects.get_or_create(store=instance, **specialization_data)
+            specialization, created = Specialization.objects.get_or_create(**specialization_data)
             instance.specializations.add(specialization)
         return instance
 
