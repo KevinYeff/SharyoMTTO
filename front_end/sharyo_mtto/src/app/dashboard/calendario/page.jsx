@@ -7,6 +7,9 @@ export default async function Calendario() {
     const maintenances = await getMaintenances();
     const { session, userId } = await getCookies();
 
+    // Sort maintenances from oldest to most recent
+    const sortedMaintenances = maintenances.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+
     return (
         <div>
             <div className="pb-4 flex mx-10 justify-between items-center">
@@ -14,7 +17,7 @@ export default async function Calendario() {
                 <AddMaintenanceModal session={session} userId={userId} />
             </div>
             <div className="grid grid-cols-1 gap-6 p-4">
-                {maintenances.map((maintenance) => (
+                {sortedMaintenances.map((maintenance) => (
                     <MaintenanceCard key={maintenance.id} maintenance={maintenance} />
                 ))}
             </div>
