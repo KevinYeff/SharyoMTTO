@@ -12,7 +12,8 @@ const AddStoreModal = ({ session }) => {
         address: '',
         country: 0,
         state: 0,
-        city: 0
+        city: 0,
+        contact_book: 0,
     });
     const [errors, setErrors] = useState({});
 
@@ -127,6 +128,10 @@ const AddStoreModal = ({ session }) => {
                                 <div className="flex flex-col">
                                     <label htmlFor="city" className="mb-1">Ciudad</label>
                                     <input id="city" name="city" value={store.city} onChange={handleChange} className="border rounded px-3 py-2" placeholder="Ciudad de la tienda" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label htmlFor="contact_book" className="mb-1">Libreta de contactos</label>
+                                    <input id="contact_book" name="contact_book" value={store.contact_book} onChange={handleChange} className="border rounded px-3 py-2" placeholder="Libreta de contactos" />
                                 </div>
                                 <div className="flex flex-col col-span-2">
                                     <label className="mb-1">Especializaciones</label>
