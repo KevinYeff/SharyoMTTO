@@ -1,21 +1,23 @@
+import { getMaintenances } from '@/actions/mantenimientos';
+import MaintenanceCard from '@/componentes_propios/maintenances/MaintenanceCard';
+import AddMaintenanceModal from '@/componentes_propios/modals/AddMaintenanceModal';
+import { getCookies } from '@/actions/getCookies';
 
-import React from 'react'
-import AddVehicleModal from '@/componentes_propios/modals/AddVehicleModal'
-import AddTallerModal from '@/componentes_propios/modals/AddTallerModal'
-import AddMecanicoModal from '@/componentes_propios/modals/AddMecanicoModal'
-import AddTiendaModal from '@/componentes_propios/modals/AddTiendaModal'
+export default async function Calendario() {
+    const maintenances = await getMaintenances();
+    const { session, userId } = await getCookies();
 
-function page() {
     return (
-        <div className="flex mx-10 justify-between items-center">
-            <h2 className="text-3xl font-semibold mb-4">Tus vehiculos</h2>
-            <AddVehicleModal />
-
-            <AddTallerModal />
-            <AddMecanicoModal />
-            <AddTiendaModal />
+        <div>
+            <div className="pb-4 flex mx-10 justify-between items-center">
+                <h2 className="text-3xl font-semibold mb-4">Calendario de Mantenimientos</h2>
+                <AddMaintenanceModal session={session} userId={userId} />
+            </div>
+            <div className="grid grid-cols-1 gap-6 p-4">
+                {maintenances.map((maintenance) => (
+                    <MaintenanceCard key={maintenance.id} maintenance={maintenance} />
+                ))}
+            </div>
         </div>
-    )
+    );
 }
-
-export default page

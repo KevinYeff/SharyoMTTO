@@ -5,13 +5,13 @@ import { getUrl } from "@/lib/url";
 
 const APIURL = getUrl();
 
-export async function getVehiculos() {
+export async function getMaintenances() {
     //TODO ver como hacer el fetch
 
     const session = await cookies().get("session")?.value;
     const user_id = await cookies().get("user_id")?.value;
     if (!session) return [];
-    const res = await fetch(`${APIURL}/vehicles/user_vehicles/`, {
+    const res = await fetch(`${APIURL}/work_order/mtto/list/${1}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,6 @@ export async function getVehiculos() {
     });
 
     const data = await res.json();
-    console.log(data);
     return data;
 
 }

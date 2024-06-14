@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('work_order', '0001_initial'),
+        ('work_order', '0002_alter_work_order_start_date'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='work_order',
             name='start_date',
-            field=models.DateTimeField(default=datetime.datetime(2024, 6, 13, 18, 15, 48, 231221, tzinfo=datetime.timezone.utc)),
+            field=models.DateTimeField(default=datetime.datetime(2024, 6, 13, 18, 15, 51, 995353, tzinfo=datetime.timezone.utc)),
         ),
     ]
