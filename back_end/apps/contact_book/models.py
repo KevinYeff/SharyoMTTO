@@ -107,6 +107,8 @@ class Store(models.Model):
     address = models.CharField(max_length=50, blank=True)
     specializations = models.ManyToManyField(Specialization,
                                             related_name='stores')
+    contact_book = models.ForeignKey(Contact_book, on_delete = models.CASCADE,
+                                     related_name = 'stores')
 
     def __str__(self):
         return self.name
