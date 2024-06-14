@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -55,7 +55,8 @@ class MileageRegisterView(CreateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)        
 
-class MiliageListView(ListCreateAPIView):
+class MiliageListView(ListAPIView):
+    """View ver el listado de registros de kilometraje por vehiculo."""
     serializer_class = MiliageSerializer
     permission_classes = [IsAuthenticated]
 
@@ -86,7 +87,7 @@ class ConsumptionRegisterView(CreateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
 
-class ConsumptionListView(ListCreateAPIView):
+class ConsumptionListView(ListAPIView):
     serializer_class = ComsuptionSerializer
     permission_classes = [IsAuthenticated]
 

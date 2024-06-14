@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, ImageField, SlugRelatedField
 from .models import Vehicle, Mileage, Consumption
 from apps.user.models import User
+from apps.work_order.serializers import WorkOrderSerializer
 
 
 class VehicleSerializer(ModelSerializer): 
@@ -8,6 +9,7 @@ class VehicleSerializer(ModelSerializer):
     brand = SlugRelatedField(many= True, read_only=True, slug_field='brand')
     vehicle_category = SlugRelatedField(many= True, read_only=True, slug_field='category')
     vehicle_type = SlugRelatedField(many= True, read_only=True, slug_field='type')
+    # work_orders = WorkOrderSerializer(many=True)
     
     class Meta:
         model = Vehicle
@@ -56,7 +58,7 @@ class MiliageSerializer(ModelSerializer):
     def create(self, validated_data):
         mileage = Mileage.objects.create(
             mileage = validated_data['mileage'],
-            last_date = validated_data['date'],
+            date = validated_data['date'],
             vehicle = validated_data['vehicle'],
         )  
         return mileage
