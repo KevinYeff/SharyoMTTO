@@ -62,7 +62,7 @@ function LoginPage() {
             console.log("Se esta guardando la cookie")
             document.cookie = `user_id=${data.id}; path=/; SameSite=Lax`; // Guarda el token en las cookies con SameSite
 
-            router.push("/dashboard"); // Redirige al usuario a la página del dashboard
+            router.push("/dashboard/calendario"); // Redirige al usuario a la página del dashboard
         } catch (error) {
             console.error("Error en el login:", error);
         }
