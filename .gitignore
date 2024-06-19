@@ -1,0 +1,10 @@
+venv/
+
+# Ignorar archivos de caché de Python
+__pycache__
+
+# Ignorar la base de datos SQLite
+db.sqlite3
+
+# Ignorar archivos de cache de Python
+*.pyc
